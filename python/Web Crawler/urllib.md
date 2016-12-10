@@ -98,7 +98,8 @@ params = {
 data = urllib.parse.urlencode(params).encode('utf-8')
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                  'Chrome/54.0.2840.99 Safari/537.36',
     'Referer': 'http://www.baidu.com',
     'haha': 'xixi'
 }
