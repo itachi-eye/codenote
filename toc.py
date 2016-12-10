@@ -1,12 +1,12 @@
 import os
 import urllib.parse
 
-ignore_dir_or_file = ['.git', 'README.md']
+ignore_dir_or_file = ['.git', 'README.md', 'toc.py']
 
 GIT_TREE_URL = 'https://github.com/cangsangyuemanlou/codenote/tree/master'
 GIT_BLOB_URL = 'https://github.com/cangsangyuemanlou/codenote/blob/master'
 
-root_path = 'E:/test/python'
+root_path = 'E:\\projects\\StudyNote\\codenote'
 space_char = '&emsp;'
 
 
@@ -41,14 +41,15 @@ def get_git_conent():
             giturl = GIT_TREE_URL + filepath
         else:
             giturl = GIT_BLOB_URL + filepath
-        yield (space_char * info[1] + info[3], giturl)
+        yield (info[1], info[3], giturl)
 
 
 def write_readme():
     readme_file_path = root_path + '/README.md'
     with open(readme_file_path, 'w', encoding='utf-8') as fp:
         for item in get_git_conent():
-            fp.write("[{content}]({link})\n".format(content=item[0], link=item[1]))
+            fp.write("{space}[{content}]({link})\r\n"
+                     .format(space=space_char * item[0], content=item[1], link=item[2]))
 
 
 if __name__ == '__main__':
