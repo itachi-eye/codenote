@@ -1,7 +1,7 @@
 import os
 import urllib.parse
 
-ignore_dir_or_file = ['.git', 'README.md', 'toc.py']
+ignore_dir_or_file = ['.git', 'README.md', 'toc.py', 'code']
 
 GIT_TREE_URL = 'https://github.com/cangsangyuemanlou/codenote/tree/master'
 GIT_BLOB_URL = 'https://github.com/cangsangyuemanlou/codenote/blob/master'
