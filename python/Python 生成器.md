@@ -3,13 +3,10 @@
 
 This is [a link](http://www.baidu.com).
 
-    var a = 2;
-    console.log(a);  
-
 -------  
 
 ```python
 def fn():
-    print(111)
+    print(222)
 ```
 
