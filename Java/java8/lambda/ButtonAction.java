@@ -6,12 +6,10 @@ public class ButtonAction {
 
 		Button btn = new Button();
 		btn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.out.println("clicked: " + event);
 			}
-
 		});
 		btn.click(); // simulate a butten clicked
 
