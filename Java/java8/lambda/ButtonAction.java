@@ -1,5 +1,8 @@
 package lambda;
-
+/**
+ * 使用lambda表达式
+ * 
+ */
 public class ButtonAction {
 
 	public static void main(String[] args) {
