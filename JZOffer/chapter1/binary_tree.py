@@ -9,11 +9,12 @@
 8. 遍历：层序，递归
 9. 打印：树形
 10.节点数：所有
-11.节点数：叶子（度为0）
-12.节点数：叶子（度为1）
-13.节点数：叶子（度为2）
-14.节点数：第k层
-15.
+11.节点数：度为0（叶子），度为1，度为2
+12.节点数：第k层
+13.深度（高度）
+14.路径：从根节点到某个节点路径
+15.路径：两个节点的最低公共祖先节点
+16.路径：两个节点的最短距离
 """
 
 
@@ -187,6 +188,17 @@ class BinaryTree(object):
             return 0  # 出口
         return self._recv_size(node.left) + self._recv_size(node.right) + 1
 
+    def deep(self):
+        """
+        深度 = max(左子树深度，右子树深度) + 1
+        """
+        return self._recv_deep(self.root)
+
+    def _recv_deep(self, node):
+        if node is None:
+            return 0
+        return max(self._recv_deep(node.left), self._recv_deep(node.right)) + 1
+
     def leaves(self):
         """
         叶子数
@@ -259,6 +271,58 @@ class BinaryTree(object):
             return 1
         return self._recv_layer_count(node.left, k + 1, layer) + self._recv_layer_count(node.right, k + 1, layer)
 
+    def path_node(self, target_value) -> list:
+        path = []
+        found = self._recv_path_node(self.root, target_value, path)
+        if found:
+            print([n.val for n in path])
+            return path
+        else:
+            print("not found")
+            return []
+
+    def _recv_path_node(self, node: BTNode, target, path: list):
+        """
+        深度优先，左边一直找到头，找不到就找右边，右边找不到退一步
+        """
+        if node is None:
+            return False
+        if node.val == target:
+            path.append(node)
+            return True
+        path.append(node)
+        found = self._recv_path_node(node.left, target, path)
+        if not found:
+            found = self._recv_path_node(node.right, target, path)
+        if not found:
+            path.pop()
+        return found
+
+    def least_common_ancestor(self, value1, value2):
+        """
+        最低公共祖先节点
+        """
+        path1 = self.path_node(value1)
+        path2 = self.path_node(value2)
+        i = 0
+        while i < len(path1) and i < len(path2):
+            if path1[i].val != path2[i].val:
+                break
+            i += 1
+        print(path1[i - 1].val)
+
+    def least_distance(self, value1, value2):
+        path1 = self.path_node(value1)
+        path2 = self.path_node(value2)
+        i = 0
+        while i < len(path1) and i < len(path2):
+            if path1[i].val != path2[i].val:
+                break
+            i += 1
+        i = i - 1
+        dist = path1[:i:-1] + path2[i:]
+        print([n.val for n in dist])
+
 
 if __name__ == '__main__':
     btree = BinaryTree()
@@ -271,4 +335,5 @@ if __name__ == '__main__':
     # print(btree.leaves())
     # print(btree.degree_count(1))
     # print(btree.degree_count(2))
-    print(btree.layer_count(2))
+    # print(btree.layer_count(2))
+    btree.least_distance('G', 'E')
