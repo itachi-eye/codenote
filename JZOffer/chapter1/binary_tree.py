@@ -247,17 +247,17 @@ class BinaryTree(object):
         """
         第layer层的节点数
         """
-        return self._recv_layer_count(self.root, layer)
+        return self._recv_layer_count(self.root, 1, layer)
 
-    def _recv_layer_count(self, node, layer):
+    def _recv_layer_count(self, node, k, layer):
         """
-        从node节点，深入到第layer层，即layer->1
+        node节点k=1, k跟踪每一层的高度，k==layer就是要求的层
         """
-        if node is None or layer < 1:
+        if node is None or k < 1:
             return 0
-        if layer == 1:  # 第layer层，且节点存在
+        if k == layer:  # 第layer层，且节点存在
             return 1
-        return self._recv_layer_count(node.left, layer - 1) + self._recv_layer_count(node.right, layer - 1)
+        return self._recv_layer_count(node.left, k + 1, layer) + self._recv_layer_count(node.right, k + 1, layer)
 
 
 if __name__ == '__main__':
@@ -271,4 +271,4 @@ if __name__ == '__main__':
     # print(btree.leaves())
     # print(btree.degree_count(1))
     # print(btree.degree_count(2))
-    print(btree.layer_count(4))
+    print(btree.layer_count(2))
