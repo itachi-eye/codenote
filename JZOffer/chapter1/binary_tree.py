@@ -8,10 +8,12 @@
 7. 遍历：后序，递归
 8. 遍历：层序，递归
 9. 打印：树形
-10.
-11.
-12.
-13.
+10.节点数：所有
+11.节点数：叶子（度为0）
+12.节点数：叶子（度为1）
+13.节点数：叶子（度为2）
+14.节点数：第k层
+15.
 """
 
 
@@ -37,7 +39,7 @@ class BinaryTree(object):
 
     def rebuild_pre_in(self, pre_arr, in_arr):
         """
-        重建：中序+前序
+        重建：中序+前序，pre_arr第一个为根，中序分左右
         """
         self.root = self._recv_pre_in(pre_arr, 0, len(pre_arr) - 1, in_arr, 0, len(in_arr) - 1)
 
@@ -51,13 +53,13 @@ class BinaryTree(object):
 
     def rebuild_in_post(self, in_arr, post_arr):
         """
-        重建：中序+后序 
+        重建：中序+后序，post_arr最后一个为根，中序分左右
         """
         self.root = self._recv_in_post(in_arr, 0, len(in_arr), post_arr, 0, len(post_arr) - 1)
 
     def _recv_in_post(self, in_arr, inst, inend, post_arr, post, poend):
         if inst <= inend and post <= poend:
-            i = in_arr.index(post_arr[poend], inst, inend + 1)
+            i = in_arr.index(post_arr[poend], inst, inend + 1)  # 找根节点
             node = BTNode(post_arr[poend])
             node.left = self._recv_in_post(in_arr, inst, i - 1, post_arr, post, i - inst + post - 1)
             node.right = self._recv_in_post(in_arr, i + 1, inend, post_arr, i - inst + post, poend - 1)
@@ -65,7 +67,7 @@ class BinaryTree(object):
 
     def rebuild_in_layer(self, in_arr, layer_arr):
         """
-        重建：中序+层序
+        重建：中序+层序，in_arr在layer中最前的为根，中序分左右
         """
         lth = len(in_arr)
         pos = [0] * lth
@@ -75,9 +77,9 @@ class BinaryTree(object):
 
     def _recv_in_layer(self, in_arr, st, end, layer_arr, pos):
         if st <= end:
-            mi = min(pos[st:end + 1])
+            mi = min(pos[st:end + 1])  # layer中最靠前的为根
             ch = layer_arr[mi]
-            i = in_arr.index(ch)
+            i = in_arr.index(ch)  # 根在in_arr中的位置
             node = BTNode(ch)
             node.left = self._recv_in_layer(in_arr, st, i - 1, layer_arr, pos)
             node.right = self._recv_in_layer(in_arr, i + 1, end, layer_arr, pos)
@@ -180,16 +182,93 @@ class BinaryTree(object):
         """
         return self._recv_size(self.root)
 
-    def _recv_size(self, node: BTNode):
+    def _recv_size(self, node: BTNode) -> int:
         if node is None:
             return 0  # 出口
         return self._recv_size(node.left) + self._recv_size(node.right) + 1
 
+    def leaves(self):
+        """
+        叶子数
+        """
+        return self._recv_leaf(self.root)
+
+    def _recv_leaf(self, node: BTNode) -> int:
+        """
+        1. node为空，返回0
+        2. node为叶子，返回1
+        3. node不是叶子，返回左子树的叶子数+右子树的叶子数
+        """
+        if node is None:
+            return 0
+        if node.left is None and node.right is None:
+            return 1
+        return self._recv_leaf(node.left) + self._recv_leaf(node.right)
+
+    def degree_count(self, degree):
+        if degree == 0:
+            return self.leaves()
+        elif degree == 1:
+            return self._recv_degree_1(self.root)
+        elif degree == 2:
+            return self._recv_degree_2(self.root)
+        else:
+            raise ValueError("illegal arguments")
+
+    def _recv_degree_1(self, node: BTNode) -> int:
+        """
+        1. node is null, return 0
+        2. node has only one child, return the not-null one + 1
+        3. node has two children, return left + right
+        4. node has no child, return 0
+        """
+        if node is None:
+            return 0
+        is_left_null = node.left is None
+        is_right_null = node.right is None
+        if is_left_null and not is_right_null:
+            return self._recv_degree_1(node.right) + 1
+        elif not is_left_null and is_right_null:
+            return self._recv_degree_1(node.left) + 1
+        elif not is_left_null and not is_right_null:
+            return self._recv_degree_1(node.left) + self._recv_degree_1(node.right)
+        else:
+            return 0
+
+    def _recv_degree_2(self, node: BTNode) -> int:
+        if node is None:
+            return 0
+        if node.left is not None and node.right is not None:
+            return self._recv_degree_2(node.left) + self._recv_degree_2(node.right) + 1
+        else:
+            return self._recv_degree_2(node.left) + self._recv_degree_2(node.right)
+
+    def layer_count(self, layer):
+        """
+        第layer层的节点数
+        """
+        return self._recv_layer_count(self.root, layer)
+
+    def _recv_layer_count(self, node, layer):
+        """
+        从node节点，深入到第layer层，即layer->1
+        """
+        if node is None or layer < 1:
+            return 0
+        if layer == 1:  # 第layer层，且节点存在
+            return 1
+        return self._recv_layer_count(node.left, layer - 1) + self._recv_layer_count(node.right, layer - 1)
+
 
 if __name__ == '__main__':
     btree = BinaryTree()
-    btree.rebuild_complete('EAGXCXFXXBD', 'X')
-    # btree.inorder()
-    # btree.postorder()
+    btree.rebuild_complete('ABCDXEFGHXXXXIX', 'X')
+    btree.preorder()
+    btree.inorder()
+    btree.postorder()
     btree.tree_print()
-    print(btree.size())
+    # print(btree.size())
+    # print(btree.leaves())
+    # print(btree.degree_count(1))
+    # print(btree.degree_count(2))
+    print(btree.layer_count(4))
