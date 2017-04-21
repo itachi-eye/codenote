@@ -323,10 +323,23 @@ class BinaryTree(object):
         dist = path1[:i:-1] + path2[i:]
         print([n.val for n in dist])
 
+    def max_span(self):
+        return self._recv_max_span(self.root)
+
+    def _recv_max_span(self, node: BTNode):
+        if node is None:
+            return 0, -1
+        left_max_dep, left_max_dist = self._recv_max_span(node.left)
+        right_max_dep, right_max_dist = self._recv_max_span(node.right)
+
+        max_dep = max(left_max_dep, right_max_dep) + 1
+        max_dist = max(max(left_max_dist, right_max_dist), left_max_dep + right_max_dep + 2)
+        return max_dep, max_dist
+
 
 if __name__ == '__main__':
     btree = BinaryTree()
-    btree.rebuild_complete('ABCDXEFGHXXXXIX', 'X')
+    btree.rebuild_complete('ABCDXEFGHXXXX', 'X')
     btree.preorder()
     btree.inorder()
     btree.postorder()
@@ -336,4 +349,5 @@ if __name__ == '__main__':
     # print(btree.degree_count(1))
     # print(btree.degree_count(2))
     # print(btree.layer_count(2))
-    btree.least_distance('G', 'E')
+    # btree.least_distance('G', 'E')
+    print(btree.max_span())

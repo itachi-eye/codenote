@@ -1,12 +1,3 @@
+from util.float_util import fequal
 
-irr = 'DGBAECF'
-lrr = 'ABCDEFG'
-
-pos = [0] * len(irr)
-
-for i in range(len(irr)):
-    ch = irr[i]
-    p = lrr.index(ch)
-    pos[i] = p
-
-print(pos[1:3])
+print(fequal(0, 0.00000001))
