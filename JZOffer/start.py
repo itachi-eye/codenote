@@ -1,3 +1,3 @@
-from util.float_util import fequal
 
-print(fequal(0, 0.00000001))
+for i in range(100):
+    print(i, i & 15, i & 9)

@@ -25,7 +25,3 @@ def replace_space_2(s):
             j -= 1
         i -= 1
     print(''.join(ns))
-
-
-if __name__ == '__main__':
-    replace_space_2("one two  three ")
