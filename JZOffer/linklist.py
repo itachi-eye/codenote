@@ -134,6 +134,40 @@ class LinkList(object):
                 r = p.next if p is not None else None
             return q, p, r
 
+    def __reversed__(self):
+        if self.empty():
+            return
+        q = self.head.next
+        p = q.next
+        if p is None:
+            return  # 只有一个节点
+        r = p.next
+        q.next = None  # 第一个节点next为空
+        while p is not None:
+            p.next = q
+            q = p
+            p = r
+            r = r.next if r is not None else None
+        self.head.next = q
+
+    def recv_reverse(self):
+        """
+        递归求反转链表
+        """
+        tail = self._recv_reverse(self.head.next)
+        tail.next = None
+
+    def _recv_reverse(self, node):
+        """
+        递归求反转链表
+        """
+        if node.next is None:
+            self.head.next = node
+            return node
+        prev = self._recv_reverse(node.next)
+        prev.next = node
+        return node
+
     def print_reverse(self):
         stack = []
         p = self.head.next
@@ -142,11 +176,44 @@ class LinkList(object):
             p = p.next
         print(' -> '.join(stack[::-1]))
 
+    def fetch_middle(self):
+        q, p = self.head, self.head
+        while p is not None:
+            q = q.next
+            p = p.next
+            if p is not None:
+                p = p.next
+            else:
+                break
+        print(q.val)
+
+    def has_circle(self):
+        q, p = self.head, self.head.next
+        # a = LNode('A')
+        # b = LNode('B')
+        # c = LNode('C')
+        # d = LNode('D')
+        # a.next = b
+        # b.next = c
+        # c.next = d
+        # d.next = a
+        # head = LNode(0)
+        # head.next = a
+        # q, p = head, head.next
+        while q is not None:
+            if p is q:
+                return True
+            q = q.next
+            p = p.next
+            if p is not None:
+                p = p.next
+            else:
+                return False
+
+
 if __name__ == '__main__':
     link = LinkList()
-    link.initlist(['A'])
-    link.insert(1, 'B')
-    link.insert(1, 'C')
-    link.insert(3, 'D')
+    link.initlist('AB')
     link.print()
-    link.print_reverse()
+    link.recv_reverse()
+    link.print()
