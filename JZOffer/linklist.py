@@ -164,8 +164,8 @@ class LinkList(object):
         if node.next is None:
             self.head.next = node
             return node
-        prev = self._recv_reverse(node.next)
-        prev.next = node
+        pn = self._recv_reverse(node.next)
+        pn.next = node
         return node
 
     def print_reverse(self):
