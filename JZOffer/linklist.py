@@ -1,3 +1,17 @@
+"""
+1. 链表长度
+2. 列表初始化
+3. 结尾插入
+4. 结尾弹出
+5. 开头弹出
+6. 插入
+7. 删除
+8. 反转，三指针，递归
+9. 定位中间，倒数第k个
+10.是否有环
+"""
+
+
 class LNode(object):
     def __init__(self, val, nxt=None):
         self.val = val
@@ -14,19 +28,28 @@ class LinkList(object):
 
     def __init__(self):
         self.head = LNode(0)
-        self.__length = 0
 
     def __len__(self):
-        return self.__length
+        p = self.head.next
+        lth = 0
+        while p is not None:
+            lth += 1
+            p = p.next
+        return lth
 
     def initlist(self, data):
+        """
+        列表初始化
+        """
         p = self.head
         for d in data:
-            self.__length += 1
             p.next = LNode(d)
             p = p.next
 
     def print(self):
+        """
+        打印
+        """
         arr = []
         p = self.head.next
         while p:
@@ -34,28 +57,22 @@ class LinkList(object):
             p = p.next
         print(' -> '.join(map(lambda x: str(x), arr)))
 
-    def lastk(self, k):
-        """倒数第k个，考虑k的各种取值"""
-        if k <= 0:
-            return
-        p = self.head
-        q = p
-        for i in range(k):
-            p = p.next
-            if p is None:
-                return
-        while p:
-            p = p.next
-            q = q.next
-        return q.val
-
     def empty(self):
+        """
+        是否为空
+        """
         return True if self.head.next is None else False
 
     def clear(self):
+        """
+        清除所有元素
+        """
         self.head.next = None
 
     def append(self, item):
+        """
+        结尾插入一个
+        """
         p = self.head
         if p.next is None:
             p.next = LNode(item)
@@ -63,9 +80,11 @@ class LinkList(object):
             while p.next is not None:
                 p = p.next
             p.next = LNode(item)
-        self.__length += 1
 
     def pop(self):
+        """
+        结尾弹出一个，O(n)
+        """
         if self.empty():
             return
         q = None
@@ -73,20 +92,24 @@ class LinkList(object):
         while p.next is not None:
             q = p
             p = p.next
-        self.__length -= 1
         q.next = None
         return p.val
 
     def popleft(self):
+        """
+        开头弹出一个，O(1)
+        """
         if self.empty():
             return
         p = self.head.next
         self.head.next = p.next
-        self.__length -= 1
         p.next = None
         return p.val
 
     def insert(self, index, item):
+        """
+        在位置index处插入一个元素
+        """
         if index < 0 or index > self.__len__():
             raise ValueError("index error")
         q, p, r = self._qpr(index)
@@ -96,12 +119,14 @@ class LinkList(object):
         else:
             q.next = node
         node.next = p
-        self.__length += 1
 
     def delete(self, index):
-        if index < 0:
+        """
+        在index位置插入一个元素
+        """
+        if index < 0 or index >= self.__len__():
             raise ValueError("index error")
-        if self.empty() or index >= self.__length:
+        if self.empty():
             return
         q, p, r = self._qpr(index)
         if q is None:
@@ -110,7 +135,6 @@ class LinkList(object):
             q.next = r
         p.next = None
         del p
-        self.__length -= 1
 
     def _qpr(self, index):
         """
@@ -121,7 +145,7 @@ class LinkList(object):
         :return: (q, p, r)
         """
         q, p, r = None, None, None
-        if self.empty() or index < -1 or index > self.__length:
+        if self.empty() or index < -1 or index > len(self):
             return q, p, r
         elif index == -1:
             return q, p, self.head.next
@@ -135,6 +159,9 @@ class LinkList(object):
             return q, p, r
 
     def __reversed__(self):
+        """
+        反转链表，使用三个指针，q, p, r
+        """
         if self.empty():
             return
         q = self.head.next
@@ -152,7 +179,7 @@ class LinkList(object):
 
     def recv_reverse(self):
         """
-        递归求反转链表
+        反转链表，递归
         """
         tail = self._recv_reverse(self.head.next)
         tail.next = None
@@ -169,6 +196,9 @@ class LinkList(object):
         return node
 
     def print_reverse(self):
+        """
+        倒序打印
+        """
         stack = []
         p = self.head.next
         while p is not None:
@@ -177,6 +207,9 @@ class LinkList(object):
         print(' -> '.join(stack[::-1]))
 
     def fetch_middle(self):
+        """
+        定位中间，快慢指针
+        """
         q, p = self.head, self.head
         while p is not None:
             q = q.next
@@ -187,7 +220,28 @@ class LinkList(object):
                 break
         print(q.val)
 
+    def fetch_lastk(self, k):
+        """
+        倒数第k个，考虑k的各种取值
+        :param k: 位置
+        """
+        if k <= 0:
+            return
+        p = self.head
+        q = p
+        for i in range(k):
+            p = p.next
+            if p is None:
+                return
+        while p:
+            p = p.next
+            q = q.next
+        return q.val
+
     def has_circle(self):
+        """
+        是否有环，快慢指针
+        """
         q, p = self.head, self.head.next
         # a = LNode('A')
         # b = LNode('B')
@@ -213,7 +267,7 @@ class LinkList(object):
 
 if __name__ == '__main__':
     link = LinkList()
-    link.initlist('AB')
+    link.initlist('abcd')
+    link.insert(4, 'A')
     link.print()
-    link.recv_reverse()
-    link.print()
+    print(len(link))
