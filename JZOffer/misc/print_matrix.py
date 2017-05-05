@@ -1,7 +1,6 @@
-from collections import namedtuple
-
-Point = namedtuple('Point', ['x', 'y'])
-
+"""
+顺时针，逆时针打印正方形、三角形
+"""
 N = 10
 matrix = [[0] * N for _ in range(N)]
 
