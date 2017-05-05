@@ -15,6 +15,10 @@
 14.路径：从根节点到某个节点路径
 15.路径：两个节点的最低公共祖先节点
 16.路径：两个节点的最短距离
+17.跨度：二叉树的最大跨度
+18.镜像
+19.复制
+20.镜像复制
 """
 
 
@@ -272,6 +276,9 @@ class BinaryTree(object):
         return self._recv_layer_count(node.left, k + 1, layer) + self._recv_layer_count(node.right, k + 1, layer)
 
     def path_node(self, target_value) -> list:
+        """
+        从根节点到target的路径
+        """
         path = []
         found = self._recv_path_node(self.root, target_value, path)
         if found:
@@ -324,6 +331,9 @@ class BinaryTree(object):
         print([n.val for n in dist])
 
     def max_span(self):
+        """
+        二叉树的最大跨度
+        """
         return self._recv_max_span(self.root)
 
     def _recv_max_span(self, node: BTNode):
@@ -336,6 +346,58 @@ class BinaryTree(object):
         max_dist = max(max(left_max_dist, right_max_dist), left_max_dep + right_max_dep + 2)
         return max_dep, max_dist
 
+    def mirror(self):
+        """
+        镜像
+        """
+        self._recv_mirror(self.root)
+
+    def _recv_mirror(self, node: BTNode):
+        """
+        镜像，递归
+        """
+        if node is None:  # node为空
+            return
+        if node.left is None and node.right is None:  # node是叶子
+            return
+        node.left, node.right = node.right, node.left  # 左右交换
+        if node.left is not None:
+            self._recv_mirror(node.left)  # 左边镜像
+        if node.right is not None:
+            self._recv_mirror(node.right)  # 右边镜像
+
+    def copy(self):
+        """
+        复制，返回新的根节点
+        """
+        return self._recv_copy(self.root)
+
+    def _recv_copy(self, node: BTNode):
+        """
+        复制，递归
+        :param node 旧节点
+        :return 新节点
+        """
+        if node is None:  # 出口
+            return
+        nnode = BTNode(node.val + "2")  # 新节点
+        nnode.left = self._recv_copy(node.left)  # 复制左边
+        nnode.right = self._recv_copy(node.right)  # 复制右边
+        return nnode  # 返回新节点
+
+    def _recv_copy_mirror(self, node: BTNode):
+        """
+        镜像复制，递归
+        :param node: 旧节点 
+        :return: 新节点 
+        """
+        if node is None:
+            return
+        nnode = BTNode(node.val + "3")
+        nnode.left = self._recv_copy_mirror(node.right)  # 新的左边 = 旧右边
+        nnode.right = self._recv_copy_mirror(node.left)  # 新的右边 = 旧左边
+        return nnode
+
 
 if __name__ == '__main__':
     btree = BinaryTree()
@@ -344,10 +406,6 @@ if __name__ == '__main__':
     btree.inorder()
     btree.postorder()
     btree.tree_print()
-    # print(btree.size())
-    # print(btree.leaves())
-    # print(btree.degree_count(1))
-    # print(btree.degree_count(2))
-    # print(btree.layer_count(2))
-    # btree.least_distance('G', 'E')
-    print(btree.max_span())
+    r = btree.copy()
+    btree.root = r
+    btree.tree_print()
