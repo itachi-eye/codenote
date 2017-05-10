@@ -19,6 +19,7 @@
 18.镜像
 19.复制
 20.镜像复制
+21.和为某个值的路径（根-叶）
 """
 
 
@@ -251,7 +252,7 @@ class BinaryTree(object):
         else:
             return 0
 
-    def _recv_degree_2(self, node: BTNode) -> int:
+    def _recv_degree_2(self, node) -> int:
         if node is None:
             return 0
         if node.left is not None and node.right is not None:
@@ -288,7 +289,7 @@ class BinaryTree(object):
             print("not found")
             return []
 
-    def _recv_path_node(self, node: BTNode, target, path: list):
+    def _recv_path_node(self, node: BTNode, target, path: list) -> bool:
         """
         深度优先，左边一直找到头，找不到就找右边，右边找不到退一步
         """
@@ -304,6 +305,37 @@ class BinaryTree(object):
         if not found:
             path.pop()
         return found
+
+    def find_path_with_sum(self, expect_sum):
+        """
+        找出和为expect_sum的路径
+        """
+        path = []
+        self._recv_path_total(self.root, path, 0, expect_sum)
+
+    def _recv_path_total(self, node, path, current_sum, except_sum):
+        """
+        node节点处的路径path，和current_sum
+        """
+        if node is None:
+            return
+
+        path.append(node)  # 更新node节点处的path和sum
+        current_sum += int(node.val)
+
+        if BinaryTree.is_leaf(node) and current_sum == except_sum:  # 是否满足条件
+            print('ooook', current_sum)
+            print('->'.join(map(lambda x: x.val, path)))
+
+        if node.left is not None:  # 开始递归
+            self._recv_path_total(node.left, path, current_sum, except_sum)
+        if node.right is not None:
+            self._recv_path_total(node.right, path, current_sum, except_sum)
+        path.pop()  # 左右两边都递归完了，path把node节点去掉
+
+    @staticmethod
+    def is_leaf(node):
+        return True if node is not None and node.left is None and node.right is None else False
 
     def least_common_ancestor(self, value1, value2):
         """
@@ -401,11 +433,9 @@ class BinaryTree(object):
 
 if __name__ == '__main__':
     btree = BinaryTree()
-    btree.rebuild_complete('ABCDXEFGHXXXX', 'X')
+    btree.rebuild_complete('1234x7x56xxx2')
     btree.preorder()
     btree.inorder()
     btree.postorder()
     btree.tree_print()
-    r = btree.copy()
-    btree.root = r
-    btree.tree_print()
+    btree.find_path_with_sum(13)
