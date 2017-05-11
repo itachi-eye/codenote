@@ -52,7 +52,7 @@ def recv_trans(node: Node):
     :param node: 遍历到某子树的根
     :return: 转换为双向链表之后的头和尾节点，(first, last)
     """
-    if is_leaf(node):  # 如何是叶子节点，转换后的头尾就是本身
+    if is_leaf(node):  # 如果是叶子节点，转换后的头尾就是本身
         return node, node
 
     left_first, left_last, right_first, right_last = [None] * 4
@@ -61,11 +61,11 @@ def recv_trans(node: Node):
     if node.right is not None:
         right_first, right_last = recv_trans(node.right)  # 不为空的右子树转换后的头和尾，一直深入到叶子
 
-    if left_last is None:  # node只有左子树
+    if left_last is None:  # node只有右子树
         node.right = right_first
         right_first.left = node
         return node, right_first
-    elif right_first is None:  # node只有右子树
+    elif right_first is None:  # node只有左子树
         node.left = left_last
         left_last.right = node
         return left_last, node
