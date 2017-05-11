@@ -61,14 +61,14 @@ def recv_trans(node: Node):
     if node.right is not None:
         right_first, right_last = recv_trans(node.right)  # 不为空的右子树转换后的头和尾，一直深入到叶子
 
-    if left_last is None:  # node只有右子树
-        node.right = right_first
-        right_first.left = node
-        return node, right_first
-    elif right_first is None:  # node只有左子树
+    if right_first is None:  # node只有左子树
         node.left = left_last
         left_last.right = node
         return left_last, node
+    elif left_last is None:  # node只有右子树
+        node.right = right_first
+        right_first.left = node
+        return node, right_first
     else:  # node有左右子树
         left_last.right = node
         node.right = right_first
