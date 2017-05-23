@@ -3,6 +3,7 @@
 """
 
 import random
+import math
 
 p = 1 / 4
 MaxCount = 32
@@ -30,8 +31,31 @@ def geometric_distribution():
     return c
 
 
+def normal_distribution():
+    """
+    近似正态分布，中心极限定理
+    """
+    x = sum(random.random() for _ in range(6))
+    x = math.sqrt(2) * (x - 3)
+
+    a = MaxCount >> 1
+    y = int(a * x / 3 + a)
+    if y < 1 or y > MaxCount:
+        y = 0
+    return y
+
+
+def binomial_distribution():
+    """
+    二项分布，根据定义，重复试验n次中事件A出现的次数，
+    其中，事件A出现的概率为p
+    """
+    c = 0
+    for _ in range(MaxCount):
+        if random.random() < p:
+            c += 1
+    return c
+
+
 if __name__ == '__main__':
-    arr = [0] * (MaxCount + 1)
-    for i in range(10000):
-        arr[power_low()] += 1
-    print(arr)
+    pass
