@@ -140,6 +140,9 @@ def cmp_func(m, n):
 
 
 def make_minimum_number(arr):
+    """
+    将数组arr中的数字组成一个最小的多位数
+    """
     r = sorted(arr, key=functools.cmp_to_key(cmp_func))
     print(''.join(map(lambda x: str(x), r)))
 
