@@ -147,6 +147,106 @@ def make_minimum_number(arr):
     print(''.join(map(lambda x: str(x), r)))
 
 
+def first_single_character(seq):
+    """
+    第一次出现一次的字符
+    """
+    charr = [0] * 256
+    for c in seq:
+        charr[ord(c)] += 1
+    for i in range(256):
+        if charr[i] == 1:
+            print(chr(i))
+            break
+
+
+def del_character_in_second(first: str, second: str):
+    """
+    删除first中second有的字符
+    """
+    lst = list(first)
+    aux = [0] * 256
+    for s in second:
+        aux[ord(s)] = 1
+    for i in range(len(lst)):
+        c = first[i]
+        if aux[ord(c)] == 1:
+            lst[i] = '\0'
+    print(''.join(filter(lambda x: x != '\0', lst)))
+
+
+def inverse_pairs_count_0(arr):
+    """
+    逆序对的个数
+    """
+    lth = len(arr)
+    cnt = 0
+    for i in range(lth):
+        for j in range(i + 1, lth):
+            if arr[i] > arr[j]:
+                cnt += 1
+    print(cnt)
+
+
+def recv_merge(arr, tmp, st, m, end):
+    """
+    求st-m，m-end的交叉逆序对数，同时将前后段排序
+    """
+    i, j = st, m + 1
+    idx, cnt = st, 0
+    while i <= m and j <= end:
+        if arr[i] > arr[j]:
+            tmp[idx] = arr[j]
+            cnt += m - i + 1
+            j += 1
+        else:
+            tmp[idx] = arr[i]
+            i += 1
+        idx += 1
+    while i <= m:
+        tmp[idx] = arr[i]
+        idx += 1
+        i += 1
+    while j <= end:
+        tmp[idx] = arr[j]
+        idx += 1
+        j += 1
+    print(tmp)
+    arr[st:end + 1] = tmp[st: end + 1]
+    return cnt
+
+
+def recv_inverse_pairs(arr, tmp, st, end):
+    """
+    归并法，分治-合并
+    :param arr: 原数组
+    :param tmp: 辅助数组
+    :param st: 开始位置
+    :param end: 结束位置
+    :return: st-end段的逆序对数
+    """
+
+    if st == end:
+        return 0
+    else:
+        m = (st + end) >> 1
+        left = recv_inverse_pairs(arr, tmp, st, m)  # 前半段
+        right = recv_inverse_pairs(arr, tmp, m + 1, end)  # 后半段
+        inter = recv_merge(arr, tmp, st, m, end)  # 前后段
+        return left + right + inter
+
+
+def inverse_pairs_count_1(arr):
+    """
+    逆序对的个数，归并法，空间换时间
+    时间复杂度O(nlgn)
+    空间复杂度O(n)
+    """
+    tmp = [0] * len(arr)
+    count = recv_inverse_pairs(arr, tmp, 0, len(arr) - 1)
+    print(count)
+
+
 if __name__ == '__main__':
-    seq = [42, 45, 1, 39, 29]
-    make_minimum_number(seq)
+    inverse_pairs_count_0([7, 5, 6, 4, 2, 3])
+    inverse_pairs_count_1([7, 5, 6, 4, 2, 3])
