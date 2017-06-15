@@ -14,14 +14,11 @@ class Node(object):
 
 
 def init():
-    h = Node(3)
-    g = Node(16)
-    f = Node(12)
-    c = Node(14, f, g)
-    d = Node(4, h)
-    e = Node(8)
-    b = Node(6, d, e)
-    a = Node(10, b, c)
+    e = Node(4)
+    d = Node(2)
+    b = Node(3, d, e)
+    c = Node(6)
+    a = Node(5, b, c)
     return a
 
 
@@ -55,26 +52,26 @@ def recv_trans(node: Node):
     if is_leaf(node):  # 如果是叶子节点，转换后的头尾就是本身
         return node, node
 
-    left_first, left_last, right_first, right_last = [None] * 4
+    lhead, ltail, rhead, rtail = [None] * 4
     if node.left is not None:
-        left_first, left_last = recv_trans(node.left)  # 不为空的左子树转换后的头和尾，一直深入到叶子
+        lhead, ltail = recv_trans(node.left)  # 不为空的左子树转换后的头和尾，一直深入到叶子
     if node.right is not None:
-        right_first, right_last = recv_trans(node.right)  # 不为空的右子树转换后的头和尾，一直深入到叶子
+        rhead, rtail = recv_trans(node.right)  # 不为空的右子树转换后的头和尾，一直深入到叶子
 
-    if right_first is None:  # node只有左子树
-        node.left = left_last
-        left_last.right = node
-        return left_last, node
-    elif left_last is None:  # node只有右子树
-        node.right = right_first
-        right_first.left = node
-        return node, right_first
+    if rhead is None:  # node只有左子树
+        node.left = ltail
+        ltail.right = node
+        return lhead, node
+    elif ltail is None:  # node只有右子树
+        node.right = rhead
+        rhead.left = node
+        return node, rtail
     else:  # node有左右子树
-        left_last.right = node
-        node.right = right_first
-        right_first.left = node
-        node.left = left_last
-        return left_first, right_last
+        ltail.right = node
+        node.right = rhead
+        rhead.left = node
+        node.left = ltail
+        return lhead, rtail
 
 
 if __name__ == '__main__':
