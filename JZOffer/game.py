@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+import random
+
+
 def dice(n):
     """
     投掷n个骰子，和为[n, 6n]，求每种可能出现的次数
@@ -23,5 +27,49 @@ def dice(n):
     print(tmp[n:])
 
 
+def pull_Pallet_Truck():
+    def check_truck(role: list):
+        nonlocal game
+        card = role.pop(0)
+        if card in game:
+            idx = game.index(card)
+            role.append(card)
+            role += game[idx:][::-1]
+            game = game[:idx]
+            return True
+        else:
+            game.append(card)
+            return False
+
+    pokers = list('123456789#JQK' * 4 + 'UU')
+    random.shuffle(pokers)
+    print(pokers)
+    m = len(pokers) >> 1
+    role1 = pokers[:m]
+    role2 = pokers[m:]
+    game = []
+    rounds = 1
+    # print(len(role1), len(role2))
+    rl1, rl2 = [], []
+    while len(role1) > 0 and len(role2) > 0:
+        if rounds & 1:
+            if check_truck(role1):
+                continue
+        else:
+            if check_truck(role2):
+                continue
+        rounds += 1
+        rl1.append(len(role1))
+        rl2.append(len(role2))
+        # print(len(role1), len(role2), len(game))
+    print(rounds)
+    print(rl1)
+    print(rl2)
+    plt.plot(rl1, label='role1')
+    plt.plot(rl2, label='role2')
+    plt.legend(loc='upper left')
+    plt.show()
+
+
 if __name__ == '__main__':
-    dice(10)
+    pull_Pallet_Truck()

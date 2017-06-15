@@ -247,6 +247,59 @@ def inverse_pairs_count_1(arr):
     print(count)
 
 
+def get_first_k(seq, k, st, end):
+    """
+    递归，查找k在已排序seq中开始的位置
+    """
+    if st > end:
+        return -1
+    m = (st + end) >> 1
+    mv = seq[m]
+    if mv == k:
+        if (m == 0) or (m > 0 and seq[m - 1] != k):
+            return m
+        else:
+            end = m - 1
+    elif mv < k:
+        st = m + 1
+    else:
+        end = m - 1
+    return get_first_k(seq, k, st, end)
+
+
+def get_last_k(seq, k, st, end):
+    """
+    递归，k在已排序seq中结束的位置
+    """
+    if st > end:
+        return -1
+    lth = len(seq)
+    m = (st + end) >> 1
+    mv = seq[m]
+    if mv == k:
+        if (m == lth - 1) or (m < lth - 1 and seq[m + 1] != k):
+            return m
+        else:
+            st = m + 1
+    elif mv < k:
+        st = m + 1
+    else:
+        end = m - 1
+    return get_last_k(seq, k, st, end)
+
+
+def number_k(seq, k):
+    """
+    已排序数组中k出现的次数，二分查找，O(lgn)
+    """
+    lth = len(seq)
+    first = get_first_k(seq, k, 0, lth - 1)
+    last = get_last_k(seq, k, 0, lth - 1)
+    if first == -1 or last == -1:
+        return 0
+    else:
+        return last - first + 1
+
+
 if __name__ == '__main__':
-    inverse_pairs_count_0([7, 5, 6, 4, 2, 3])
-    inverse_pairs_count_1([7, 5, 6, 4, 2, 3])
+    print(number_k([1, 1, 2, 3, 3, 3, 3, 4, 4, 5], 4))
