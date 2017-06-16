@@ -175,3 +175,4 @@ ENV/
 
 # End of https://www.gitignore.io/api/python
 JZOffer/data/
+Q100/.idea/
