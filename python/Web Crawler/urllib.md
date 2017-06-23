@@ -1,8 +1,8 @@
-#urllib
+# urllib
 
 [TOC]
 
-##1、最简单：直接抓取页面代码
+## 1、最简单：直接抓取页面代码
 ```python
 import urllib.request
 import urllib.error
@@ -19,7 +19,7 @@ else:
     print(result)
 ```
 
-##2、使用 Request
+## 2、使用 Request
 ```python
 import urllib.request
 import urllib.error
@@ -39,7 +39,7 @@ else:
 ```
 
 
-##3、发送数据，GET
+## 3、发送数据，GET
 ```python
 import urlib.request
 import urllib.parse
@@ -64,7 +64,7 @@ print(resp.read().decode('utf-8'))
 # {"act":"login","name":"\u5f20\u4e09","id":"123"}
 ```
 
-##4、发送数据，POST
+## 4、发送数据，POST
 ```python
 import urllib.request
 import urllib.parse
