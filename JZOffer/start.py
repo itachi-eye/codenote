@@ -1,31 +1,25 @@
-D = 10000
-nlst = [0] * D
-dlst = [0] * (D + 1)
+def reverse_list(arr, st, end):
+    while st < end:
+        arr[st], arr[end] = arr[end], arr[st]
+        st += 1
+        end -= 1
 
 
-def f(a, b):
-    while b != 0:
-        t = a % b
-        a = b
-        b = t
-    return a
-
-
-def count():
-    cnt = 0
-    for d in range(2, D + 1):
-        for n in range(1, d):
-            g = f(n, d)
-            n2 = n // g
-            d2 = d // g
-            if nlst[n2] != 0 and dlst[d2] != 0:
-                continue
-            else:
-                cnt += 1
-                nlst[n2] = n2
-        dlst[d] = d
-    return cnt
+def reverse_sentence(s):
+    sl = list(s)
+    lth = len(sl)
+    reverse_list(sl, 0, lth - 1)
+    p, r = 0, 0
+    while p < lth:
+        if sl[p] == ' ':
+            p, r = p + 1, r + 1
+        elif (r < lth and sl[r] == ' ') or (r >= lth):
+            reverse_list(sl, p, r - 1)
+            p, r = r + 1, r + 1
+        else:
+            r = r + 1
+    print(''.join(sl))
 
 
 if __name__ == '__main__':
-    print(count())
+    reverse_sentence('student.')
