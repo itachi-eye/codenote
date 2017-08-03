@@ -48,7 +48,7 @@ def write_readme():
     readme_file_path = root_path + '/README.md'
     with open(readme_file_path, 'w', encoding='utf-8') as fp:
         for item in get_git_conent():
-            fp.write("{space}[{content}]({link})\r\n"
+            fp.write("{space}[{content}]({link})\n"
                      .format(space=space_char * item[0], content=item[1], link=item[2]))
 
 
