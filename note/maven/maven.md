@@ -1,6 +1,10 @@
 # maven
 
-### 1. 切换环境
+[TOC]
+
+
+
+## 1. 切换环境
 
 setting.xml有两个位置，
 
@@ -12,9 +16,9 @@ setting.xml有两个位置，
 
 
 
-### 2. 指令
+## 2. 指令
 
-1 创建项目
+### 1 创建项目
 
 ```shell
 mvn archetype:generate
@@ -24,7 +28,7 @@ mvn archetype:generate
 
 
 
-2 编译源代码
+### 2 编译源代码
 
 ```shell
 mvn clean compile
@@ -38,7 +42,7 @@ mvn clean compile
 
 
 
-3 测试
+### 3 测试
 
 ```shell
 mvn clean test
@@ -46,7 +50,7 @@ mvn clean test
 
 
 
-4 打包
+### 4 打包
 
 ```shell
 mvn clean package
@@ -56,7 +60,7 @@ mvn clean package
 
 
 
-5 安装
+### 5 安装
 
 ```shell
 mvn clean install
@@ -66,7 +70,7 @@ mvn clean install
 
 
 
-6 运行jar
+### 6 运行jar
 
 默认打包生成的jar不能直接运行
 

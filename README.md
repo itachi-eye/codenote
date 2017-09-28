@@ -7,6 +7,8 @@
 &emsp;&emsp;[primitive type wrapper.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/jdk8/primitive%20type%20wrapper.md)  
 &emsp;[maven](https://github.com/cangsangyuemanlou/codenote/tree/master/note/maven)  
 &emsp;&emsp;[maven.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/maven/maven.md)  
+&emsp;[mysql](https://github.com/cangsangyuemanlou/codenote/tree/master/note/mysql)  
+&emsp;&emsp;[mysql主从部署.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/mysql/mysql%E4%B8%BB%E4%BB%8E%E9%83%A8%E7%BD%B2.md)  
 &emsp;[python](https://github.com/cangsangyuemanlou/codenote/tree/master/note/python)  
 &emsp;&emsp;[Web Crawler](https://github.com/cangsangyuemanlou/codenote/tree/master/note/python/Web%20Crawler)  
 &emsp;&emsp;&emsp;[urllib.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/python/Web%20Crawler/urllib.md)  
