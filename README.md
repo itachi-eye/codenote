@@ -5,6 +5,7 @@
 &emsp;&emsp;&emsp;[primitive_type_wrapper.png](https://github.com/cangsangyuemanlou/codenote/blob/master/note/jdk8/res/primitive_type_wrapper.png)  
 &emsp;&emsp;[Character.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/jdk8/Character.md)  
 &emsp;&emsp;[primitive type wrapper.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/jdk8/primitive%20type%20wrapper.md)  
+&emsp;&emsp;[java.lang.Class.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/jdk8/java.lang.Class.md)  
 &emsp;[maven](https://github.com/cangsangyuemanlou/codenote/tree/master/note/maven)  
 &emsp;&emsp;[maven.md](https://github.com/cangsangyuemanlou/codenote/blob/master/note/maven/maven.md)  
 &emsp;[mysql](https://github.com/cangsangyuemanlou/codenote/tree/master/note/mysql)  

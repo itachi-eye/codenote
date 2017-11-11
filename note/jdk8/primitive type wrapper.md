@@ -1,6 +1,6 @@
 # primitive type wrapper
 
-
+八种基本类型
 
 - Object
   - Boolean
