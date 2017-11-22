@@ -1,4 +1,4 @@
-
+// 生产者消费者
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,5 +94,73 @@ class Consumer implements Runnable {
             }
         }
 
+    }
+}
+
+
+
+
+
+// 双重检测
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+
+        Counter counter = new Counter();
+        MyRunnable runnable = new MyRunnable(counter);
+        for (int i = 0; i < 10; i++) {
+            new Thread(runnable).start();
+        }
+    }
+    
+}
+
+class Counter {
+    private int count;
+
+    public int getCount() {
+        if (count == 0) {
+            synchronized (this) {
+                if (count == 0) { // 双重锁保证只有一个线程进行计算
+                    count = computeLongLongTime();
+                }
+            }
+        }
+        return count;
+    }
+
+    private int computeLongLongTime() {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("computer = " + Thread.currentThread().getName());
+        return 111;
+    }
+}
+
+
+class MyRunnable implements Runnable {
+
+    private Counter counter;
+
+    public MyRunnable(Counter counter) {
+        this.counter = counter;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName());
+
+        System.out.println(Thread.currentThread().getName() + " -- " + counter.getCount());
     }
 }
